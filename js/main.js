@@ -1,25 +1,5 @@
 var game = new Phaser.Game(640, 480, Phaser.AUTO, 'game');
 
-Player = function (game, x, y) {
-  this.game = game;
-  this.sprite = game.add.sprite(x, y, 'player');
-  this.sprite.anchor.setTo(0.5, 0.5);
-  game.physics.arcade.enable(this.sprite);
-}
-
-Player.prototype.move = function (direction) {
-  this.sprite.body.velocity.y = 300 * direction;
-}
-
-Player.prototype.stop = function () {
-  this.sprite.body.velocity.y = 0;
-}
-
-var Direction = {
-  UP : -1,
-  DOWN : 1
-};
-
 var MainState = (function (game) {
 
   var player1, player2;
@@ -47,15 +27,13 @@ var MainState = (function (game) {
     player1.stop();
     player2.stop();
     if (upKey.isDown) {
-      player1.move(Direction.UP);
-      player2.move(Direction.UP);
+      player1.moveUp();
+      player2.moveUp();
     } else if (downKey.isDown) {
-      player1.move(Direction.DOWN);
-      player2.move(Direction.DOWN);
+      player1.moveDown();
+      player2.moveDown();
     }
   }
-
-
 
   return {
     preload : preload,
