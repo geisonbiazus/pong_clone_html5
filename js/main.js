@@ -1,13 +1,28 @@
 var game = new Phaser.Game(640, 480, Phaser.AUTO, 'game');
 
-var MainState = (function () {
+Player = function (game, x, y) {
+  this.game = game;
+  this.sprite = game.add.sprite(x, y, 'player');
+  this.sprite.anchor.setTo(0.5, 0.5);
+  game.physics.arcade.enable(this.sprite);
+}
 
-  var Direction = {
-    UP : -1,
-    DOWN : 1
-  };
+Player.prototype.move = function (direction) {
+  this.sprite.body.velocity.y = 300 * direction;
+}
 
-  var player;
+Player.prototype.stop = function () {
+  this.sprite.body.velocity.y = 0;
+}
+
+var Direction = {
+  UP : -1,
+  DOWN : 1
+};
+
+var MainState = (function (game) {
+
+  var player1, player2;
   var height, width;
   var upKey, downKey;
 
@@ -21,23 +36,26 @@ var MainState = (function () {
     height = game.world.height;
     width = game.world.width;
 
-    player = game.add.sprite(15, height / 2, 'player');
-    player.anchor.setTo(0, 0.5);
-    game.physics.arcade.enable(player);
+    player1 = new Player(game, 20, height / 2);
+    player2 = new Player(game, width - 20, height / 2);
 
     upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
     downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
   }
 
   function update() {
-    player.body.velocity.y = 0;
-    if (upKey.isDown) move(Direction.UP);
-    else if (downKey.isDown) move(Direction.DOWN);
+    player1.stop();
+    player2.stop();
+    if (upKey.isDown) {
+      player1.move(Direction.UP);
+      player2.move(Direction.UP);
+    } else if (downKey.isDown) {
+      player1.move(Direction.DOWN);
+      player2.move(Direction.DOWN);
+    }
   }
 
-  function move(direction) {
-    player.body.velocity.y = 200 * direction;
-  }
+
 
   return {
     preload : preload,
@@ -45,7 +63,7 @@ var MainState = (function () {
     update : update
   };
 
-})();
+})(game);
 
 game.state.add('main', MainState);
 game.state.start('main');
