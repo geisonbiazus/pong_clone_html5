@@ -2,12 +2,13 @@ var game = new Phaser.Game(640, 480, Phaser.AUTO, 'game');
 
 var MainState = (function (game) {
 
-  var player1, player2;
+  var player1, player2, ball;
   var height, width;
   var upKey, downKey;
 
   function preload() {
     game.load.image('player', 'assets/player.png');
+    game.load.image('ball', 'assets/ball.png');
   }
 
   function create () {
@@ -18,6 +19,7 @@ var MainState = (function (game) {
 
     player1 = new Player(game, 20, height / 2);
     player2 = new Player(game, width - 20, height / 2);
+    ball = new Ball(game, width / 2, height / 2);
 
     upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
     downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
@@ -26,6 +28,7 @@ var MainState = (function (game) {
   function update() {
     player1.stop();
     player2.stop();
+
     if (upKey.isDown) {
       player1.moveUp();
       player2.moveUp();
@@ -33,6 +36,9 @@ var MainState = (function (game) {
       player1.moveDown();
       player2.moveDown();
     }
+
+    player1.checkCounter(ball);
+    player2.checkCounter(ball);
   }
 
   return {

@@ -4,6 +4,7 @@ Player = function (game, x, y) {
   this.sprite.anchor.setTo(0.5, 0.5);
   this.game.physics.arcade.enable(this.sprite);
   this.sprite.body.collideWorldBounds = true;
+  this.sprite.body.immovable = true;
 };
 
 Player.UP = -1;
@@ -23,4 +24,9 @@ Player.prototype.move = function (direction) {
 
 Player.prototype.stop = function () {
   this.sprite.body.velocity.y = 0;
+};
+
+Player.prototype.checkCounter = function (object) {
+  this.game.physics.arcade.collide(this.sprite, object.sprite);
+  // this.game.physics.arcade.overlap(this.sprite, object.sprite, object.counter, null, object);
 };
