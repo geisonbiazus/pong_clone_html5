@@ -4,7 +4,7 @@ var MainState = (function (game) {
 
   var player1, player2, ball;
   var height, width;
-  var upKey, downKey;
+  var keyboard;
 
   function preload() {
     game.load.image('player', 'assets/player.png');
@@ -14,25 +14,24 @@ var MainState = (function (game) {
   function create () {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    keyboard = new Keyboard(game);
+
     height = game.world.height;
     width = game.world.width;
 
     player1 = new Player(game, 20, height / 2);
     player2 = new Player(game, width - 20, height / 2);
     ball = new Ball(game, width / 2, height / 2);
-
-    upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-    downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
   }
 
   function update() {
     player1.stop();
     player2.stop();
 
-    if (upKey.isDown) {
+    if (keyboard.hold.up()) {
       player1.moveUp();
       player2.moveUp();
-    } else if (downKey.isDown) {
+    } else if (keyboard.hold.down()) {
       player1.moveDown();
       player2.moveDown();
     }
