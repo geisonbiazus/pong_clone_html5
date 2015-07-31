@@ -8,3 +8,7 @@ var Ball = function (game, x, y) {
   this.sprite.body.bounce.y = 1;
   this.sprite.body.collideWorldBounds = true;
 }
+
+Ball.prototype.counter = function (delta) {
+  this.sprite.body.velocity.y = delta * 10;
+}

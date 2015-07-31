@@ -27,6 +27,10 @@ Player.prototype.stop = function () {
 };
 
 Player.prototype.checkCounter = function (object) {
-  this.game.physics.arcade.collide(this.sprite, object.sprite);
-  // this.game.physics.arcade.overlap(this.sprite, object.sprite, object.counter, null, object);
+  this.game.physics.arcade.collide(this.sprite, object.sprite, this.counter, null, object);
+};
+
+Player.prototype.counter = function (playerSprite, ballSprite) {
+  var delta = ballSprite.body.center.y - playerSprite.body.center.y;
+  this.counter(delta);
 };
