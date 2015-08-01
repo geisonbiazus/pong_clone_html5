@@ -6,9 +6,14 @@ var Ball = function (game, x, y) {
   this.sprite.body.velocity.x = -300;
   this.sprite.body.bounce.x = 1;
   this.sprite.body.bounce.y = 1;
-  this.sprite.body.collideWorldBounds = true;
 }
 
 Ball.prototype.counter = function (delta) {
   this.sprite.body.velocity.y = delta * 10;
+}
+
+Ball.prototype.onOut = function (callback, context) {
+  if (!this.sprite.inWorld) {
+    callback.call(context);
+  }
 }

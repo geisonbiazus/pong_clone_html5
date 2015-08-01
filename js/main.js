@@ -2,9 +2,11 @@ var game = new Phaser.Game(640, 480, Phaser.AUTO, 'game');
 
 var MainState = (function (game) {
 
-  var player1, player2, ball;
   var height, width;
+  var borderTop, borderBottom;
+  var player1, player2, ball;
   var keyboard;
+
 
   function preload() {
     game.load.image('player', 'assets/player.png');
@@ -18,6 +20,9 @@ var MainState = (function (game) {
 
     height = game.world.height;
     width = game.world.width;
+
+    borderTop = new Border(game, 0, 0);
+    borderBottom = new Border(game, 0, height - 5);
 
     player1 = new Player(game, 20, height / 2);
     player2 = new Player(game, width - 20, height / 2);
@@ -36,14 +41,20 @@ var MainState = (function (game) {
       player2.moveDown();
     }
 
+    borderTop.checkCollision(ball);
+    borderBottom.checkCollision(ball);
     player1.checkCounter(ball);
     player2.checkCounter(ball);
+
+    ball.onOut(function () {
+      game.state.start('main');
+    });
   }
 
   return {
-    preload : preload,
-    create : create,
-    update : update
+    preload: preload,
+    create: create,
+    update: update,
   };
 
 })(game);
