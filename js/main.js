@@ -6,7 +6,8 @@ var MainState = (function (game) {
   var borderTop, borderBottom;
   var player1, player2, ball;
   var keyboard;
-
+  var scoreLocationLeft, scoreLocationRight;
+  var score;
 
   function preload() {
     game.load.image('player', 'assets/player.png');
@@ -26,7 +27,13 @@ var MainState = (function (game) {
 
     player1 = new Player(game, 20, height / 2);
     player2 = new Player(game, width - 20, height / 2);
-    ball = new Ball(game, width / 2, height / 2);
+    ball = new Ball(game);
+
+    score = new Score(game, player1, player2);
+
+    scoreLocationLeft = new ScoreLocation(game, ScoreLocation.LEFT, score, player1, ball);
+    scoreLocationRight = new ScoreLocation(game, ScoreLocation.RIGHT, score, player2, ball);
+
   }
 
   function update() {
@@ -43,18 +50,23 @@ var MainState = (function (game) {
 
     borderTop.checkCollision(ball);
     borderBottom.checkCollision(ball);
+    scoreLocationLeft.checkScore();
+    scoreLocationRight.checkScore();
+
     player1.checkCounter(ball);
     player2.checkCounter(ball);
+  }
 
-    ball.onOut(function () {
-      game.state.start('main');
-    });
+  function render() {
+    game.debug.body(scoreLocationLeft.sprite);
+    game.debug.body(scoreLocationRight.sprite);
   }
 
   return {
     preload: preload,
     create: create,
     update: update,
+    render: render
   };
 
 })(game);
