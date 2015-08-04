@@ -14,7 +14,7 @@ var MainState = (function (game) {
     game.load.image('ball', 'assets/ball.png');
   }
 
-  function create () {
+  function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     keyboard = new Keyboard(game);
@@ -58,8 +58,7 @@ var MainState = (function (game) {
   }
 
   function render() {
-    game.debug.body(scoreLocationLeft.sprite);
-    game.debug.body(scoreLocationRight.sprite);
+    // game.debug.body(scoreLocationLeft.sprite);
   }
 
   return {

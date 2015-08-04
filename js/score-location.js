@@ -23,6 +23,12 @@ ScoreLocation.prototype.checkScore = function () {
 };
 
 ScoreLocation.prototype.addScore = function () {
-  this.score.increment(this.player);
-  this.ball.resetPosition();
+  var self = this;
+  if (!this.collided) {
+    this.collided = true;
+    this.score.increment(this.player);
+    this.ball.resetPosition(function () {
+      self.collided = false;
+    });
+  }
 };
