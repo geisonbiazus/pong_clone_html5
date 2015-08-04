@@ -11,7 +11,7 @@ var ScoreLocation = function (game, position, score, player, ball) {
   this.sprite.body.immovable = true;
 };
 
-ScoreLocation.LEFT = 0;
+ScoreLocation.LEFT = -1;
 ScoreLocation.RIGHT = 1;
 
 ScoreLocation.prototype.getX = function () {
@@ -27,7 +27,7 @@ ScoreLocation.prototype.addScore = function () {
   if (!this.collided) {
     this.collided = true;
     this.score.increment(this.player);
-    this.ball.resetPosition(function () {
+    this.ball.resetPosition(this.position, function () {
       self.collided = false;
     });
   }
