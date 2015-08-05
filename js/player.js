@@ -9,6 +9,7 @@ Player = function (game, x, y) {
 
 Player.UP = -1;
 Player.DOWN = 1;
+Player.MOVEMENT_SPEED = 500;
 
 Player.prototype.moveUp = function () {
   this.move(Player.UP);
@@ -19,7 +20,7 @@ Player.prototype.moveDown = function () {
 };
 
 Player.prototype.move = function (direction) {
-  this.sprite.body.velocity.y = 300 * direction;
+  this.sprite.body.velocity.y = Player.MOVEMENT_SPEED * direction;
 };
 
 Player.prototype.stop = function () {
@@ -32,5 +33,6 @@ Player.prototype.checkCounter = function (object) {
 
 Player.prototype.counter = function (playerSprite, ballSprite) {
   var delta = ballSprite.body.center.y - playerSprite.body.center.y;
-  this.counter(delta);
+  var force = Math.abs(playerSprite.body.velocity.y) / Player.MOVEMENT_SPEED;
+  this.counter(delta, force);
 };

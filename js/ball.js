@@ -14,9 +14,17 @@ var Ball = function (game) {
 
 Ball.LEFT = -1;
 Ball.RIGHT = 1;
+Ball.MAX_VELOCITY = 700;
 
-Ball.prototype.counter = function (delta) {
-  this.sprite.body.velocity.y = delta * 10;
+Ball.prototype.counter = function (delta, force) {
+  var velocity = this.sprite.body.velocity;
+  var absX = Math.abs(velocity.x);
+  var direction = velocity.x < 0 ? -1 : 1;
+  velocity.y = delta * 10;
+  velocity.x *= (absX + (absX * force / 2)) / absX;
+  if (Math.abs(velocity.x) > Ball.MAX_VELOCITY) {
+    velocity.x = Ball.MAX_VELOCITY * direction;
+  }
 };
 
 Ball.prototype.resetPosition = function (direction, callback) {
