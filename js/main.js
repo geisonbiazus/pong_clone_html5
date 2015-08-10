@@ -5,9 +5,9 @@ var MainState = (function (game) {
   var height, width;
   var borderTop, borderBottom;
   var player1, player2, ball;
-  var keyboard;
   var scoreLocationLeft, scoreLocationRight;
   var score;
+  var humanControl, aiControl;
 
   function preload() {
     game.load.image('player', 'assets/player.png');
@@ -18,14 +18,10 @@ var MainState = (function (game) {
   function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-
-    keyboard = new Keyboard(game);
-
     height = game.world.height;
     width = game.world.width;
 
-    var division = game.add.sprite(width / 2, 0, 'table_division');
-    division.anchor.setTo(0.5, 0);
+    game.add.sprite(width / 2, 0, 'table_division').anchor.setTo(0.5, 0);;
 
     borderTop = new Border(game, 0, 0);
     borderBottom = new Border(game, 0, height - 5);
@@ -34,6 +30,8 @@ var MainState = (function (game) {
     player2 = new Player(game, width - 20, height / 2);
     ball = new Ball(game);
 
+    humanControl = new HumanControl(game, player1);
+    aiControl = new AIControl(game, player2, ball);
     score = new Score(game, player1, player2);
 
     scoreLocationLeft = new ScoreLocation(game, ScoreLocation.LEFT, score, player1, ball);
@@ -42,16 +40,9 @@ var MainState = (function (game) {
   }
 
   function update() {
-    player1.stop();
-    player2.stop();
 
-    if (keyboard.hold.up()) {
-      player1.moveUp();
-      player2.moveUp();
-    } else if (keyboard.hold.down()) {
-      player1.moveDown();
-      player2.moveDown();
-    }
+    humanControl.process();
+    aiControl.process();
 
     borderTop.checkCollision(ball);
     borderBottom.checkCollision(ball);
