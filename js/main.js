@@ -12,15 +12,20 @@ var MainState = (function (game) {
   function preload() {
     game.load.image('player', 'assets/player.png');
     game.load.image('ball', 'assets/ball.png');
+    game.load.image('table_division', 'assets/table_division.png');
   }
 
   function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+
     keyboard = new Keyboard(game);
 
     height = game.world.height;
     width = game.world.width;
+
+    var division = game.add.sprite(width / 2, 0, 'table_division');
+    division.anchor.setTo(0.5, 0);
 
     borderTop = new Border(game, 0, 0);
     borderBottom = new Border(game, 0, height - 5);
