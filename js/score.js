@@ -11,7 +11,7 @@ var Score = function (game, player1, player2) {
 
 Score.prototype.increment = function (player) {
   if (player === this.player1) {
-    this.scorePlayer1++;
+    this.scorePlayer2++;
   } else {
     this.scorePlayer2++;
   }
