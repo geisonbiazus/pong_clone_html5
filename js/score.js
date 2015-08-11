@@ -13,7 +13,7 @@ Score.prototype.increment = function (player) {
   if (player === this.player1) {
     this.scorePlayer2++;
   } else {
-    this.scorePlayer2++;
+    this.scorePlayer1++;
   }
   this.scoreText1.text = this.scorePlayer1;
   this.scoreText2.text = this.scorePlayer2;
