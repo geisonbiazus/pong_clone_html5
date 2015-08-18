@@ -8,5 +8,5 @@ var Border = function (game, x, y) {
 }
 
 Border.prototype.checkCollision = function (object) {
-  game.physics.arcade.collide(object.sprite, this.sprite);
+  game.physics.arcade.collide(object.sprite, this.sprite)//, function (ball) { debugger; });
 }
